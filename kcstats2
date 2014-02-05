@@ -1,6 +1,10 @@
 #!/usr/bin/perl
+#takes two textfiles as input: this month and last one.
+use HTTP::Date;
+
 $file = shift || die "No file specified";
 
+$inp;
 $msgs=0;
 $fsa=1;
 open(I, "<$file");
@@ -10,9 +14,9 @@ while ($_ = <I>) {
         $msgs++;
     }
 
-    $file[$msgs] .= $_;
-
+    $inp[$msgs] .= $_;
     chomp;
+
     if (!length($_)) {
         $fsa=1;
     }
@@ -27,11 +31,11 @@ $prev = shift || die "No file specified";
 
 open(I, "<$prev");
 while ($_ = <I>) {
-    if ($fsa && /^From /) {
+    if ($fsa && $_ =~ /^From /) {
         $msgs++;
     }
 
-    $prev[$msgs] .= $_;
+    $inp[$msgs] .= $_;
     chomp;
 
     if (!length($_)) {
@@ -43,12 +47,29 @@ while ($_ = <I>) {
 }
 close I;
 
-#$count = 0;
-#while($_ = `formail +$count -1 -ds cat < ~/mail/$prev`) {
-#    last unless $_;
-#    push @prev, $_;
-#    $count++;
-#}
+                         # Only use the last 14 days and split them up in two weeks
+
+$msgs=0;
+$epoc = time();
+$epoc07 = $epoc - 07 * 24 * 60 * 60;
+$epoc14 = $epoc - 14 * 24 * 60 * 60;
+foreach my $msg (@inp) {
+    if ($msg =~ /^From\s+.*at.*\.(.*)$/m) {
+        #print "$1\n";
+    } else {
+        next;
+    }
+    if ($1 =~ /  (.*)$/m) {
+        $dt = str2time($1);
+        if ($dt > $epoc07) {
+            $msgs++;
+            $file[$msgs] = $msg;
+        } elsif ($dt > $epoc14) {
+            $msgs++;
+            $prev[$msgs] = $msg;
+        }
+    }
+}
 
                          # Find the number of posts
 
@@ -66,12 +87,18 @@ $size = int(length(join '', @file) / 1024);
 
 
 foreach (@file) {
-    /^From:\s+(.*)$/m;
-    if(! defined ($posters{$1})) {
+    /^From:\s+(.*)\s+(\(.*)$/m;
+    $mails{$1}=$2;
+}
+
+foreach (@file) {
+    /^From:\s+(.*)\s+\(.*$/m;
+    $whomail=$1." ".$mails{$1};
+    if(! defined ($posters{$whomail})) {
         $numposters++;
     }
-    $posters{$1} += length;
-    $posterposts{$1} ++;
+    $posters{$whomail} += length;
+    $posterposts{$whomail} ++;
 }
 
 foreach (@prev) {
@@ -111,6 +138,7 @@ sub bysizes {
     return $posterposts{$b} <=> $posterposts{$a};
 }
 
+$onlyeleven=0;
 foreach (sort bysizes keys %posterposts) {
     $who = $_;
 
@@ -130,6 +158,8 @@ foreach (sort bysizes keys %posterposts) {
     $who =~ s/\s*$//;
 
     $who || next;
+    $onlyeleven++;
+    if ($onlyeleven > 11) {last;}
     push @whos, sprintf "<person posts=\"%d\" size=\"%d\" who=\"%s\" />\n", $posterposts{$_}, $posters{$_}/1024, $who;
 }
 
