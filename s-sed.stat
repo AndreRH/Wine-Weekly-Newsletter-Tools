@@ -5,11 +5,11 @@ s/=?ISO-8859-1?Q?Vincent_B=E9ron?=/Vincent B\&#233;ron/g
 s/davep/Dave Pickles/g
 s/=?iso-8859-1?Q?Gy=F6rgy_'Nog'_Jeney?=/Gyorgy Jeney/g
 s/=?iso-8859-1?Q?J=FCrgen_Schmied?=/Juergen Schmied/g
-s/(thomas.mertes)/Thomas Mertes/g
+s/thomas.mertes/Thomas Mertes/g
 s/Patrik =?ISO-8859-1?Q?B=E5t?=/Patrik Stridvall/g
 s/Maxime =?ISO-8859-1?Q?Belleng=E9?=/Maxime Bellenge/g
 s/Brian Vincent (C)/Brian Vincent/g
-s/(David.Goodenough)/David Goodenough/g
+s/David.Goodenough)/David Goodenough/g
 s/Bill Medland  (by way of Bill Medland &lt;billmedland@mercuryspeed.com&gt;)/Bill Medland/g
 s/Pouech Eric DMI AEI CAEN/Eric Pouech/g
 s/=?iso-8859-1?Q?=22Ludue=F1a=2C_Leonardo=22?=/Leonardo Luduena/g
@@ -21,21 +21,26 @@ s/=?iso-8859-15?q?Rapha=EBl=20Junqueira?=/Rapha\&#235;l Junqueira/g
 s/=?iso-8859-1?q?Rapha=EBl_Junqueira?=/Rapha\&#235;l Junqueira/g
 s/"=?utf-8?q?Rapha=C3=ABl=20Junqueira?=/Rapha&#235;l Junqueira/g
 s/=?iso-8859-1?Q?Jean=2DEric?= Cuendet/Jean-Eric Cuendet/g
-s/ (Michael =?iso-8859-1?q?G=FCnnewig?=)/Michael G\&#252;nnewig/g
-s/ (=?iso-8859-1?q?Andr=E9_Johansen?=)/Andr\&#233; Johansen/g
-s/(Warren_Baird)/Warren Baird/g
+s/Michael =?iso-8859-1?q?G=FCnnewig?=/Michael G\&#252;nnewig/g
+s/=?iso-8859-1?q?Andr=E9_Johansen?=/Andr\&#233; Johansen/g
+s/Warren_Baird/Warren Baird/g
 s/=?iso-8859-1?Q?Juan_Antonio_Bosc=E1_Lloret?=/Juan Antonio Bosc&#225; Lloret/g
 s/Piotr =?iso-8859-2?q?Paw=B3ow?=/Piotr Pawlow/g
 s/PETREOLLE Sylvain/Sylvain Petreolle/g
 s/=?ISO-8859-1?Q?=22Crist=F3v=E3o_B=2E_B=2E_Dalla_Costa=22?=/Christian Costa/g
-s/(chmorgan)/Chris Morgan/g
+s/chmorgan/Chris Morgan/g
 s/=?ISO-8859-2?Q?=22Jacek_=5BKRunch=5D_Cha=B3upka=22?=/Jacek Chaupka/g
-s/\ \ (=?utf-8?q?Andr=C3=A9_Johansen?=)/Andre Johansen/g
-s/(tony_lambregts)/Tony Lambregts/g
+s/=?utf-8?q?Andr=C3=A9_Johansen?=/Andre Johansen/g
+s/tony_lambregts/Tony Lambregts/g
 s/Rafael =?iso-8859-1?q?=C1vila_de_Esp=EDndola?=/Rafael Avila de Espindola/g
 s/Diego 'Flameeyes' =?ISO-8859-1?Q?Petten=F2?=/Diego Petten\&#242;/g
-s/Stefan =?iso-8859-1?q?D=F6singer?=/Stefan D\&#246;singer/g
-s/Stefan =?iso-8859-15?q?D=F6singer?=/Stefan D\&#246;singer/g
-s/Stefan =?iso-8859-2?q?D=F6singer?=/Stefan D\&#246;singer/g
-s/=?iso-8859-1?q?Michael_G=FCnnewig?=)/Michael G\&#252;nnewig/g
-s/Alexander Nicolaysen =?iso-8859-1?q?S=F8rnes?=)/Alexander Nicolaysen Sornes/g
+s/Stefan =?iso-8859-1?q?D=F6singer?=/Stefan D\&#214;singer/g
+s/Stefan =?iso-8859-15?q?D=F6singer?=/Stefan D\&#214;singer/g
+s/Stefan =?iso-8859-2?q?D=F6singer?=/Stefan D\&#214;singer/g
+s/=?iso-8859-1?q?Michael_G=FCnnewig?=/Michael G\&#214;nnewig/g
+s/Alexander Nicolaysen =?iso-8859-1?q?S=F8rnes?=/Alexander Nicolaysen Sornes/g
+s/=?UTF-8?Q?Stefan_D=C3=B6singer?=/Stefan D\&#214;singer/g
+s/=?UTF-8?B?U3RlZmFuIETDtnNpbmdlcg==?=/Stefan D\&#214;singer/g
+s/=?ISO-8859-15?Q?Andr=E9_Hentschel?=/Andr\&#233; Hentschel/g
+s/=?ISO-8859-15?Q?Martin_Storsj=F6?=/Martin Storsj\&#214;/g
+s/=?UTF-8?B?RnLDqWTDqXJpYyBEZWxhbm95?=/Fr\&#233;d\&#233;ric Delanoy/g
