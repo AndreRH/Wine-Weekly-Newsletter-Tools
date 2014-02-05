@@ -1,104 +1,54 @@
 #!/bin/sh
 
-
-
 # Copyright, Brian Vincent, 2002-2006
-# 01 Feb 2003
+# Copyright, André Hentschel, 2014
+
+#Autho info
+AUTHORURL="http://dawncrow.de"
+AUTHORNAME="Andr&#233; Hentschel"
 
 #Directory to put wwn files
-#WWNDIR="wwn/"
-
+WWNDIR="wwn"
 
 # The number of this Kernel Cousin issue - we use it to give files a
 # unique name.
 
-#THISISSUE="333"
-# The number of the last issue - we use it to find the files from last
-# week.
+THISISSUE="364"
+THISMODIFER="th"
+THISFORMALDATE="03/03/2014"
 
-#LASTISSUE="332"
-
-#THISFORMALDATE="12/03/2007"
-#THISMAINGOAL="bring back the WWN!"
-#THISMODIFER="rd"
-
-WWNARCHIVEURL="http://www.winehq.com/pipermail/wine-devel/"
+WINEDEVELARCHIVE="http://www.winehq.com/pipermail/wine-devel/"
 
 # This is the name of the Hypermail archive to download from the web server.
-#MONTH=`date +"%B"`
+LANG=C
+LASTMONTH=`date --date="$(date +%Y-%m-15) -1 month" +"%B"`
+THISMONTH=`date --date="$(date +%Y-%m-15)" +"%B"`
+LASTMONTHY=`date --date="$(date +%Y-%m-15) -1 month" +"%Y"`
+THISMONTHY=`date --date="$(date +%Y-%m-15)" +"%Y"`
 
-#THISARCHIVE="2007-$MONTH.txt.gz"
-
-# This is a little tricky, if you need to span between months then set
-# SPAN=1
-# Otherwise, SPAN=0 will process just this month's archives.
-
-#SPAN=0
-
-# Since we need to download another Hypermail archive (last months') you
-# need to specify the name of it.  Only if SPAN=1.  
-
-#SPANARCHIVE="2007.November.txt.gz"
-
-# Now here's all the important stuff:
-
-if [ ${SPAN} -eq 1 ] ;
-then
-        echo "Looks like we've got a spanned archive..."
-
-	echo "Downloading last month's archive with lynx..."
-	lynx -source ${WWNARCHIVEURL}${SPANARCHIVE} \
-		> ${WWNDIR}/${THISISSUE}wd-span.txt
-
-	echo "Now we have to download the new archive..."
-	lynx -source ${WWNARCHIVEURL}${THISARCHIVE} \
-		> ${WWNDIR}/${THISISSUE}wd.txt
-
-	echo "Now we have to cat the two together and compare them..."
- 	cat ${THISISSUE}wd-span.txt \
-	    ${THISISSUE}wd.txt \
-	      > ${WWNDIR}/${THISISSUE}wd-completearchive.tmp
-
-	comm -13 ${WWNDIR}/${LASTISSUE}wd.txt \
-	 ${WWNDIR}/${THISISSUE}wd-completearchive.tmp > ${WWNDIR}/${THISISSUE}.txt
-
-	rm ${WWNDIR}/${THISISSUE}wd-completearchive.tmp ${WWNDIR}/${THISISSUE}wd-span.txt
-
-else
-        echo "Good.. the archive isn't spanned.."
-        
-	echo "Downloading the entire month's archive using lynx..."
-        echo ${WWNARCHIVEURL}${THISARCHIVE};
-	lynx -source ${WWNARCHIVEURL}${THISARCHIVE} \
-	 	>  ${WWNDIR}/${THISISSUE}wd.txt.gz
-
-	gunzip -f ${WWNDIR}/${THISISSUE}wd.txt.gz
-
-	echo "Comparing last issue archive against this one..."
-#	sort ${WWNDIR}/${LASTISSUE}wd.txt > /tmp/wd.txt
-#	mv /tmp/wd.txt ${WWNDIR}/${LASTISSUE}wd.txt
-
-#	sort ${WWNDIR}/${THISISSUE}wd.txt > /tmp/wd.txt
-#	mv /tmp/wd.txt ${WWNDIR}/${THISISSUE}wd.txt
-
-	comm -13  ${WWNDIR}/${LASTISSUE}wd.txt \
-		  ${WWNDIR}/${THISISSUE}wd.txt > ${WWNDIR}/${THISISSUE}.txt
-
-fi;
+echo "Downloading last month's archive with wget..."
+wget -c ${WINEDEVELARCHIVE}${LASTMONTHY}-${LASTMONTH}.txt.gz
+gunzip -c ${LASTMONTHY}-${LASTMONTH}.txt.gz > ${LASTMONTHY}-${LASTMONTH}.txt
+echo "Downloading this month's archive with wget..."
+wget -c ${WINEDEVELARCHIVE}${THISMONTHY}-${THISMONTH}.txt.gz
+gunzip -f ${THISMONTHY}-${THISMONTH}.txt.gz > ${THISMONTHY}-${THISMONTH}.txt
 
 echo "Invoking kcstats2 to generate stats..."
-echo "./kcstats2 ${WWNDIR}/${THISISSUE}.txt ${WWNDIR}/${LASTISSUE}.txt  > ${WWNDIR}/junk.tmp"
-./kcstats2 ${WWNDIR}/${THISISSUE}.txt ${WWNDIR}/${LASTISSUE}.txt  > ${WWNDIR}/junk.tmp
+echo "./kcstats2 ${LASTMONTHY}-${LASTMONTH}.txt ${THISMONTHY}-${THISMONTH}.txt > ${WWNDIR}/junk.tmp"
+./kcstats2 ${LASTMONTHY}-${LASTMONTH}.txt ${THISMONTHY}-${THISMONTH}.txt > ${WWNDIR}/junk.tmp
 
 echo "Removing all references to &quot; ..."
-sed -e "s/&quot;//g" ${WWNDIR}/junk.tmp > ${WWNDIR}/junk2.tmp 
+sed -e "s/&quot;//g" ${WWNDIR}/junk.tmp > ${WWNDIR}/junk2.tmp
+
+echo "Removing all testbot mail stats ..."
+sed -e "/testbot at winehq\.org/d" ${WWNDIR}/junk2.tmp > ${WWNDIR}/junk3.tmp
 
 # You might want to use sed to get rid of annoying misspelled or
 # mangled names.  I have a file called stat.sed that looks like this:
 #
 # s/=?iso-8859-1?q?Sylvain=20Petreolle?=/Sylvain\ Petreolle/g
 # s/(thomas.mertes)/Thomas Mertes/g
- 
+
 echo "Building up skeleton..."
 cat <<EOF > ${WWNDIR}/kcstats${THISISSUE}.txt
 <?xml version="1.0" ?>
@@ -113,22 +63,23 @@ echo "<issue num=\"${THISISSUE}\" date=\"${THISFORMALDATE}\" />" >> ${WWNDIR}/kc
 
 echo "<intro> <p>This is the ${THISISSUE}${THISMODIFER} issue of the World Wine News publication." >> ${WWNDIR}/kcstats${THISISSUE}.txt
 
-echo "Its main goal is to ${THISMAINGOAL} It also serves to inform you of what's going on around Wine. Wine is an open source implementation of the Windows API on top of X and Unix.  Think of it as a Windows compatibility layer.  Wine does not require Microsoft Windows, as it is a completely alternative implementation consisting of 100% Microsoft-free code, but it can optionally use native system DLLs if they are available.   You can find more info at <a href=\"http://www.winehq.org\">www.winehq.org</a></p> </intro>" >> ${WWNDIR}/kcstats${THISISSUE}.txt
-
-
+echo "Its main goal is to inform you of what's going on around Wine. Wine is an open source implementation of the Windows API on top of X and Unix.  Think of it as a Windows compatibility layer.  Wine does not require Microsoft Windows, as it is a completely alternative implementation consisting of 100% Microsoft-free code, but it can optionally use native system DLLs if they are available.   You can find more info at <a href=\"http://www.winehq.org\">www.winehq.org</a></p> </intro>" >> ${WWNDIR}/kcstats${THISISSUE}.txt
 
 echo "Invoking sed to find instances of Unicode chars..."
-sed -f s-sed.stat ${WWNDIR}/junk2.tmp >> ${WWNDIR}/kcstats${THISISSUE}.txt
-rm ${WWNDIR}/junk.tmp ${WWNDIR}/junk2.tmp
+sed -f s-sed.stat ${WWNDIR}/junk3.tmp >> ${WWNDIR}/kcstats${THISISSUE}.txt
+#rm ${WWNDIR}/junk.tmp ${WWNDIR}/junk2.tmp ${WWNDIR}/junk3.tmp
+
+echo "</kc>" >> ${WWNDIR}/kcstats${THISISSUE}.txt
 
 echo "We still might have Unicode problems though..."
+grep "utf" ${WWNDIR}/kcstats${THISISSUE}.txt
 grep "iso" ${WWNDIR}/kcstats${THISISSUE}.txt
 grep "ISO" ${WWNDIR}/kcstats${THISISSUE}.txt
 
 # This is a modification for me when I do the Wine Weekly News.
 # A bunch of the people post from more than on email account.
 # Ideally I'd modify the stats script to take that into account,
-# but it's easy enough to fix up by hand.  To save a few minutes 
+# but it's easy enough to fix up by hand.  To save a few minutes
 # I grep for the common offenders.
 
 echo "Looking for known dupes..."
@@ -139,32 +90,14 @@ P=`grep Vincent ${WWNDIR}/kcstats${THISISSUE}.txt`;grep Vincent ${WWNDIR}/kcstat
 P=`grep Marcus ${WWNDIR}/kcstats${THISISSUE}.txt`;grep Marcus ${WWNDIR}/kcstats${THISISSUE}.txt | wc -l | grep 2 && echo $P
 P=`grep Ove ${WWNDIR}/kcstats${THISISSUE}.txt`;grep Ove ${WWNDIR}/kcstats${THISISSUE}.txt | wc -l | grep 2 && echo $P
 P=`grep Bill ${WWNDIR}/kcstats${THISISSUE}.txt`;grep Bill ${WWNDIR}/kcstats${THISISSUE}.txt | wc -l | grep 2 && echo $P
-P=`grep Sylvain ${WWNDIR}/kcstats${THISISSUE}.txt`;grep Raphael ${WWNDIR}/kcstats${THISISSUE}.txt | wc -l | grep 2 && echo $P
+P=`grep Sylvain ${WWNDIR}/kcstats${THISISSUE}.txt`;grep Sylvain ${WWNDIR}/kcstats${THISISSUE}.txt | wc -l | grep 2 && echo $P
 P=`grep Raphael ${WWNDIR}/kcstats${THISISSUE}.txt`;grep Raphael ${WWNDIR}/kcstats${THISISSUE}.txt | wc -l | grep 2 && echo $P
 P=`grep Dmitry ${WWNDIR}/kcstats${THISISSUE}.txt`;grep Dmitry ${WWNDIR}/kcstats${THISISSUE}.txt | wc -l | grep 2 && echo $P
 P=`grep Diego ${WWNDIR}/kcstats${THISISSUE}.txt`;grep Diego ${WWNDIR}/kcstats${THISISSUE}.txt | wc -l | grep 2 && echo $P
 grep Hearn ${WWNDIR}/kcstats${THISISSUE}.txt | awk -f s-awk.stat
 grep Dimitrie ${WWNDIR}/kcstats${THISISSUE}.txt | awk -f s-awk.stat
 
-THISNEWSFILE=`echo $THISFORMALDATE | \
-              awk -F\/ '{print "/" $3 $1 $2 "01.xml"}'`
-CVSPATH=`echo $THISNEWSFILE | awk -F\/ '{print $5 "/" $6}'`
-THISDAY=`echo $THISFORMALDATE | awk -F\/ '{print $2}'`
-THISFORMALMONTH=`date +%B`
-THISYEAR=`echo $THISFORMALDATE | awk -F\/ '{print $3}'`
-
-echo "Creating $WWNDIR/$THISNEWSFILE..."
-
-echo "<news>" > ${WWNDIR}/$THISNEWSFILE
-echo "  <date>$THISFORMALMONTH $THISDAY, $THISYEAR</date>" >> ${WWNDIR}/$THISNEWSFILE
-echo "  <title>World Wine News Issue $THISISSUE</title>" >> ${WWNDIR}/$THISNEWSFILE
-echo "  <body>" >> ${WWNDIR}/$THISNEWSFILE
-echo "    <a href=\"{\$root}/wwn/$THISISSUE\">WWN Issue $THISISSUE</a> was released today." >> ${WWNDIR}/$THISNEWSFILE
-echo "    <!--MAINLINKS--> <!--ENDMAINLINKS-->" >> ${WWNDIR}/$THISNEWSFILE
-echo "  </body>" >> ${WWNDIR}/$THISNEWSFILE
-echo "</news>" >> ${WWNDIR}/$THISNEWSFILE
-
-echo "Finished generating Stats."
+echo "Finished generating mailing stats and wwn skeleton."
 
 # This script can be used to parse Hypermail archives, or even normal
 # mbox files (you'll have to modify it slightly, probably just where
@@ -172,7 +105,7 @@ echo "Finished generating Stats."
 # but it works for me to create the stats for the Wine Weekly News.
 
 # This script relies on Zack's kcstats program, I refer to it as
-# "kcstats2" since he modified it last year.  It's hardcoded, so 
+# "kcstats2" since he modified it last year.  It's hardcoded, so
 # you'll need to make sure it's called properly.  It also requires
 # stat.sed file.  I'd suggest using it, but at the least you'll need
 # to create the file and put something like "s/ignore me//g" as a
