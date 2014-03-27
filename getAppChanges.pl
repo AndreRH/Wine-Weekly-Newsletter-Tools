@@ -42,7 +42,7 @@ print qq~
 <section
         title="Weekly AppDB/Bugzilla Status Changes"
         subject="AppDB/Bugzilla"
-        archive="http://appdb.winehq.org"
+        archive="//appdb.winehq.org"
         posts="0"
 >
 <topic>AppDB / Bugzilla</topic>
@@ -258,7 +258,7 @@ foreach my $app (sort keys %{$apps} ) {
         print qq~
            <tr>
              <td>
-                <a href="http://appdb.winehq.org/objectManager.php?sClass=version&amp;iId=$apps->{$app}->[0]->{"Tversion"}">$appname</a>
+                <a href="//appdb.winehq.org/objectManager.php?sClass=version&amp;iId=$apps->{$app}->[0]->{"Tversion"}">$appname</a>
              </td>
              <td background="{\$root}/images/wwn_$oldcolor">
                $oldrating
