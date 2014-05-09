@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-# e.g. perl getAppChanges.pl 2014-02-14 2014-03-03 364 > appdb.txt
+# e.g. perl getAppChanges.pl 2014-04-25 2014-05-09 369 > appdb.txt
 use strict;
 
 my ( $fromdate, $todate, $WWN) = @ARGV;
@@ -38,8 +38,7 @@ $from =~ s/ 00:00:00//;
 my $to = $todate;
 $to =~ s/ 00:00:00//;
 
-print qq~
-<section
+print qq~<section
         title="Weekly AppDB/Bugzilla Status Changes"
         subject="AppDB/Bugzilla"
         archive="//appdb.winehq.org"
@@ -57,8 +56,7 @@ print qq~
         <b>Total Bugs This Issue</b>
   </td><td>
         <b>Net Change</b>
-  </td></tr>
-~;
+  </td></tr>~;
 my @fromdata = split(/\n/,`perl getBugzillaStats.pl from$WWN $from`);
 my @todata = split(/\n/,`perl getBugzillaStats.pl to$WWN Now`);
 my $lwwn = $WWN-1;
@@ -86,8 +84,7 @@ foreach ( 1 .. $#fromdata ) {
     if($netchange > 0){
       $netchange = "+".$netchange;
     }
-    print qq~
-  <tr>
+    print qq~  <tr>
     <td align="center">
      $partsfrom[0]
     </td>
@@ -97,13 +94,10 @@ foreach ( 1 .. $#fromdata ) {
     <td align="center">
      $partsto[1]
     </td>
-   ~;
-      print qq~
     <td align="center">
       $netchange
     </td>
-  </tr>
-  ~;
+  </tr>~;
 
 }
 if($dtotal > 0){
@@ -118,8 +112,7 @@ if($openChange > 0){
    $openChange = "+".$openChange;
 }
 
-print qq~
-   <tr><td align="center">
+print qq~   <tr><td align="center">
       TOTAL OPEN
    </td><td align="center">
       $oOpenTotal
@@ -153,8 +146,7 @@ will have the same experience and would provide a similar rating.</i></p>
         <td width="140"><b>Old Status/Version</b></td>
         <td width="140"><b>New Status/Version</b></td>
         <td width="20" align="center"><b>Change</b></td>
-      </tr>
-~;
+      </tr>~;
 
 use DBI;
 my $dsn          = "DBI:mysql:appdb;localhost";
@@ -181,24 +173,20 @@ $qu = $dbh->prepare($query);
 $qu->execute();
 
 #Print second header
-print qq~
-  <br />   <b><u> Updates by the Public </u></b> <br /><br />
+print qq~  <br />   <b><u> Updates by the Public </u></b> <br /><br />
    <table width="80%" border="1" bordercolor="#222222" cellspacing="0" cellpadding="3">
       <tr>
         <td><b>Application</b></td>
         <td width="140"><b>Old Status/Version</b></td>
         <td width="140"><b>New Status/Version</b></td>
         <td width="20"><b>Change</b></td>
-      </tr>
- ~;
+      </tr>~;
 $apps = process($qu);
 
 print_chart($apps);
 
-print qq~
-</div>
-  </section>
-~;
+print qq~</div>
+  </section>~;
 
 
 sub print_chart{
@@ -232,8 +220,7 @@ foreach my $app (sort keys %{$apps} ) {
             $appname = substr( $app, 0, 50 ) . "...";
         }
         $appname =~ s/\&/\&amp;/g;
-        print qq~
-           <tr>
+        print qq~           <tr>
              <td>
                 <a href="//appdb.winehq.org/objectManager.php?sClass=version&amp;iId=$apps->{$app}->[0]->{"Tversion"}">$appname</a>
              </td><td background="{\$root}/images/wwn_$oldcolor">
@@ -243,8 +230,7 @@ foreach my $app (sort keys %{$apps} ) {
              </td><td align="center">
                 $diff
              </td>
-           </tr>
-    ~;
+           </tr>~;
     }
 }
 my ($color, $sign);
@@ -257,16 +243,14 @@ else {
 }
 $change = qq~<div style="color: $color;">$sign$change</div>~;
 
-print qq~
-           <tr>
+print qq~           <tr>
              <td colspan="3">
                 Total Change
              </td><td align="center">
                $change
              </td>
            </tr>
-        </table>
-  ~;
+        </table>~;
 }
 
 sub get_diff {
@@ -393,8 +377,7 @@ sub ratingValue{
 }
 
 sub maintainerQuery {
-    return qq~
-  SELECT
+    return qq~  SELECT
         R.testedRating as "Rrating",
         T.testedRating as "Trating",
         T.versionId as "Tversion",
@@ -422,14 +405,12 @@ sub maintainerQuery {
         AND M.userId = T.submitterId
         AND T.testedRelease > R.testedRelease
   ORDER BY
-        T.testedDate
-~;
+        T.testedDate~;
 
 }
 
 sub userQuery {
-    return qq~
-  SELECT
+    return qq~  SELECT
         R.testedRating as "Rrating",
         T.testedRating as "Trating",
         T.versionId as "Tversion",
@@ -455,7 +436,6 @@ sub userQuery {
         AND T.state = "accepted"
         AND T.testedRelease > R.testedRelease
   ORDER BY
-        T.testedDate
-~;
+        T.testedDate~;
 
 }
