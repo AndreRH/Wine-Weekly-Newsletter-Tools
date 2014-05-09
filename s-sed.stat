@@ -34,13 +34,15 @@ s/=?utf-8?q?Andr=C3=A9_Johansen?=/Andre Johansen/g
 s/tony_lambregts/Tony Lambregts/g
 s/Rafael =?iso-8859-1?q?=C1vila_de_Esp=EDndola?=/Rafael Avila de Espindola/g
 s/Diego 'Flameeyes' =?ISO-8859-1?Q?Petten=F2?=/Diego Petten\&#242;/g
-s/Stefan =?iso-8859-1?q?D=F6singer?=/Stefan D\&#214;singer/g
-s/Stefan =?iso-8859-15?q?D=F6singer?=/Stefan D\&#214;singer/g
-s/Stefan =?iso-8859-2?q?D=F6singer?=/Stefan D\&#214;singer/g
-s/=?iso-8859-1?q?Michael_G=FCnnewig?=/Michael G\&#214;nnewig/g
+s/Stefan =?iso-8859-1?q?D=F6singer?=/Stefan D\&#246;singer/g
+s/Stefan =?iso-8859-15?q?D=F6singer?=/Stefan D\&#246;singer/g
+s/Stefan =?iso-8859-2?q?D=F6singer?=/Stefan D\&#246;singer/g
+s/=?iso-8859-1?Q?Stefan_D=F6singer?=/Stefan D\&#246;singer/g
+s/=?UTF-8?Q?Stefan_D=C3=B6singer?=/Stefan D\&#246;singer/g
+s/=?UTF-8?B?U3RlZmFuIETDtnNpbmdlcg==?=/Stefan D\&#246;singer/g
+s/=?iso-8859-1?q?Michael_G=FCnnewig?=/Michael G\&#252;nnewig/g
 s/Alexander Nicolaysen =?iso-8859-1?q?S=F8rnes?=/Alexander Nicolaysen Sornes/g
-s/=?UTF-8?Q?Stefan_D=C3=B6singer?=/Stefan D\&#214;singer/g
-s/=?UTF-8?B?U3RlZmFuIETDtnNpbmdlcg==?=/Stefan D\&#214;singer/g
 s/=?ISO-8859-15?Q?Andr=E9_Hentschel?=/Andr\&#233; Hentschel/g
-s/=?ISO-8859-15?Q?Martin_Storsj=F6?=/Martin Storsj\&#214;/g
+s/=?ISO-8859-15?Q?Martin_Storsj=F6?=/Martin Storsj\&#246;/g
 s/=?UTF-8?B?RnLDqWTDqXJpYyBEZWxhbm95?=/Fr\&#233;d\&#233;ric Delanoy/g
+s/=?ISO-8859-1?Q?Bernhard_=DCbelacker?=/Bernhard \&#220;belacker/g
