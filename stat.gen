@@ -4,7 +4,7 @@
 # Copyright, André Hentschel, 2014
 
 #Autho info
-AUTHORURL="http://dawncrow.de"
+AUTHORURL="http://www.dawncrow.de/wine/"
 AUTHORNAME="Andr&#233; Hentschel"
 
 #Directory to put wwn files
@@ -13,9 +13,9 @@ WWNDIR="wwn"
 # The number of this Kernel Cousin issue - we use it to give files a
 # unique name.
 
-THISISSUE="364"
+THISISSUE="369"
 THISMODIFER="th"
-THISFORMALDATE="03/03/2014"
+THISFORMALDATE="05/09/2014"
 
 WINEDEVELARCHIVE="http://www.winehq.com/pipermail/wine-devel/"
 
@@ -53,7 +53,6 @@ echo "Building up skeleton..."
 cat <<EOF > ${WWNDIR}/kcstats${THISISSUE}.txt
 <?xml version="1.0" ?>
 <kc>
-
 <title>Wine Traffic</title>
 
 <author contact="${AUTHORURL}">${AUTHORNAME}</author>
