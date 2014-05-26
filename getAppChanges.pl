@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-# e.g. perl getAppChanges.pl 2014-04-25 2014-05-09 369 > appdb.txt
+# e.g. perl getAppChanges.pl 2014-05-09 2014-05-23 370 > appdb.txt
 use strict;
 
 my ( $fromdate, $todate, $WWN) = @ARGV;
@@ -39,10 +39,10 @@ my $to = $todate;
 $to =~ s/ 00:00:00//;
 
 print qq~<section
-        title="Weekly AppDB/Bugzilla Status Changes"
-        subject="AppDB/Bugzilla"
-        archive="//appdb.winehq.org"
-        posts="0"
+    title="Weekly AppDB/Bugzilla Status Changes"
+    subject="AppDB/Bugzilla"
+    archive="//appdb.winehq.org"
+    posts="0"
 >
 <topic>AppDB / Bugzilla</topic>
 <center><b>Bugzilla Changes:</b></center>
