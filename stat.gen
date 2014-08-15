@@ -13,9 +13,9 @@ WWNDIR="wwn"
 # The number of this Kernel Cousin issue - we use it to give files a
 # unique name.
 
-THISISSUE="369"
-THISMODIFER="th"
-THISFORMALDATE="05/09/2014"
+THISISSUE="373"
+THISMODIFER="rd"
+THISFORMALDATE="08/15/2014"
 
 WINEDEVELARCHIVE="http://www.winehq.com/pipermail/wine-devel/"
 

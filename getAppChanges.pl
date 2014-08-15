@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-# e.g. perl getAppChanges.pl 2014-05-09 2014-05-23 370 > appdb.txt
+# e.g. perl getAppChanges.pl 2014-07-23 2014-08-14 373 > appdb.txt
 use strict;
 
 my ( $fromdate, $todate, $WWN) = @ARGV;
@@ -22,15 +22,18 @@ my $file = $year . "$mon" . $mday . ".tar.gz";
 if ( !-f "appdb/wine-appdb-$file" ) {
     #print "Downloading new DB file...\n";
     `wget -c -O appdb/wine-appdb-$file ftp://ftp.winehq.org/pub/wine/wine-appdb-$file `;
+    `wget -c -O appdb/wine-bugzilla-$file ftp://ftp.winehq.org/pub/wine/wine-bugzilla-$file `;
 
     #print "Extracting file...\n";
     `cd appdb && tar -xzf wine-appdb-$file`;
+    `cd appdb && tar -xzf wine-bugzilla-$file`;
 
     #print "Wiping old database...\n";
     `mysql -u $db_user_name -p -D appdb < truncateall.sql`;
 
     #print "Inserting file into DB\n";
     `cd appdb && mysql -u $db_user_name -p -D appdb < appdb.sql`;
+    `cd appdb && mysql -u $db_user_name -p -D bugs < bugzilla.sql`;
 }
 
 my $from = $fromdate;
@@ -186,7 +189,7 @@ $apps = process($qu);
 print_chart($apps);
 
 print qq~</div>
-  </section>~;
+</section>~;
 
 
 sub print_chart{
