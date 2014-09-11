@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Copyright, Brian Vincent, 2002-2006
 # Copyright, André Hentschel, 2014
@@ -13,24 +13,24 @@ WWNDIR="wwn"
 # The number of this Kernel Cousin issue - we use it to give files a
 # unique name.
 
-THISISSUE="373"
-THISMODIFER="rd"
-THISFORMALDATE="08/15/2014"
+THISISSUE="375"
+THISMODIFER="th"
+THISFORMALDATE="09/12/2014"
 
 WINEDEVELARCHIVE="http://www.winehq.com/pipermail/wine-devel/"
 
 # This is the name of the Hypermail archive to download from the web server.
 LANG=C
 LASTMONTH=`date --date="$(date +%Y-%m-15) -1 month" +"%B"`
-THISMONTH=`date --date="$(date +%Y-%m-15)" +"%B"`
+THISMONTH=`date +"%B"`
 LASTMONTHY=`date --date="$(date +%Y-%m-15) -1 month" +"%Y"`
-THISMONTHY=`date --date="$(date +%Y-%m-15)" +"%Y"`
+THISMONTHY=`date +"%Y"`
 
 echo "Downloading last month's archive with wget..."
-wget -c ${WINEDEVELARCHIVE}${LASTMONTHY}-${LASTMONTH}.txt.gz
+wget --no-check-certificate -c ${WINEDEVELARCHIVE}${LASTMONTHY}-${LASTMONTH}.txt.gz
 gunzip -c ${LASTMONTHY}-${LASTMONTH}.txt.gz > ${LASTMONTHY}-${LASTMONTH}.txt
 echo "Downloading this month's archive with wget..."
-wget -c ${WINEDEVELARCHIVE}${THISMONTHY}-${THISMONTH}.txt.gz
+wget --no-check-certificate -c ${WINEDEVELARCHIVE}${THISMONTHY}-${THISMONTH}.txt.gz
 gunzip -f ${THISMONTHY}-${THISMONTH}.txt.gz > ${THISMONTHY}-${THISMONTH}.txt
 
 echo "Invoking kcstats2 to generate stats..."

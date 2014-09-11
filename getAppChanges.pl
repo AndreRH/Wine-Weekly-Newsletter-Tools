@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-# e.g. perl getAppChanges.pl 2014-07-23 2014-08-14 373 > appdb.txt
+# e.g. perl getAppChanges.pl 2014-08-29 2014-09-12 375 > appdb.txt
 use strict;
 
 my ( $fromdate, $todate, $WWN) = @ARGV;
@@ -29,11 +29,11 @@ if ( !-f "appdb/wine-appdb-$file" ) {
     `cd appdb && tar -xzf wine-bugzilla-$file`;
 
     #print "Wiping old database...\n";
-    `mysql -u $db_user_name -p -D appdb < truncateall.sql`;
+    `mysql -u $db_user_name --password=$db_pw -D appdb < truncateall.sql`;
 
     #print "Inserting file into DB\n";
-    `cd appdb && mysql -u $db_user_name -p -D appdb < appdb.sql`;
-    `cd appdb && mysql -u $db_user_name -p -D bugs < bugzilla.sql`;
+    `cd appdb && mysql -u $db_user_name --password=$db_pw -D appdb < appdb.sql`;
+    `cd appdb && mysql -u $db_user_name --password=$db_pw -D bugs < bugzilla.sql`;
 }
 
 my $from = $fromdate;
@@ -157,6 +157,9 @@ my $dsn          = "DBI:mysql:appdb;localhost";
 my $dbh          = DBI->connect( $dsn, $db_user_name, $db_pw );
 #Reset the total change
 my $change          = 0;
+
+my $setmax = $dbh->prepare("SET SQL_BIG_SELECTS=1;");
+$setmax->execute();
 
 #Get, Execute, process, print maintainerQuery
 my $query = maintainerQuery();

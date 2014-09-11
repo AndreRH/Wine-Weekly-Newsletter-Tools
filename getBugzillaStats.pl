@@ -21,7 +21,7 @@
 
 sub wget{
   my $URL = $_[0];
-  `wget -O $DOWNLOAD_DIR/$filename.csv "$URL"  /dev/null 2>&1`;
+  `wget --no-check-certificate -O $DOWNLOAD_DIR/$filename.csv "$URL"  /dev/null 2>&1`;
   open(file,"$DOWNLOAD_DIR/$filename.csv");
   my $info = join('',<file>);
   close(file);  
