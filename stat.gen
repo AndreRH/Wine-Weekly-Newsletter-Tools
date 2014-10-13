@@ -13,7 +13,7 @@ IFS='-' read -ra PERLTMP <<< "$THISPERLDATE"
 IFS=$IFSTMP
 THISFORMALDATE="${PERLTMP[1]}/${PERLTMP[2]}/${PERLTMP[0]}"
 
-perl getAppChanges.pl ${LASTPERLDATE} ${PERLDATE} ${THISISSUE} > appdb.txt
+perl getAppChanges.pl ${LASTPERLDATE} ${THISPERLDATE} ${THISISSUE} > appdb.txt
 
 TOBEMOD="${THISISSUE: -1}"
 if [ $TOBEMOD -eq 1 ]
