@@ -1,4 +1,6 @@
 #!/usr/bin/perl
 
+$db_host      = "localhost";
+$db_name      = "winehq";
 $db_user_name = "zgold";
 $db_pw        = "PASSWORD";

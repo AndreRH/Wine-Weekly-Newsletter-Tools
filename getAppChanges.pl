@@ -4,7 +4,7 @@ use strict;
 
 my ( $fromdate, $todate, $WWN) = @ARGV;
 
-our ($db_user_name, $db_pw, %donealready);
+our ($db_host, $db_name, $db_user_name, $db_pw, %donealready);
 
 require 'dbsettings.pl';
 
@@ -29,11 +29,11 @@ if ( !-f "appdb/wine-appdb-$file" ) {
     `cd appdb && tar -xzf wine-bugzilla-$file`;
 
     #print "Wiping old database...\n";
-    `mysql -u $db_user_name --password=$db_pw -D appdb < truncateall.sql`;
+    `mysql -h $db_host -u $db_user_name --password=$db_pw -D $db_name < truncateall.sql`;
 
     #print "Inserting file into DB\n";
-    `cd appdb && mysql -u $db_user_name --password=$db_pw -D appdb < appdb.sql`;
-    `cd appdb && mysql -u $db_user_name --password=$db_pw -D bugs < bugzilla.sql`;
+    `cd appdb && mysql -h $db_host -u $db_user_name --password=$db_pw -D $db_name < appdb.sql`;
+    `cd appdb && mysql -h $db_host -u $db_user_name --password=$db_pw -D $db_name < bugzilla.sql`;
 }
 
 my $from = $fromdate;
@@ -152,7 +152,7 @@ will have the same experience and would provide a similar rating.</i></p>
       </tr>~;
 
 use DBI;
-my $dsn          = "DBI:mysql:appdb;localhost";
+my $dsn          = "DBI:mysql:" . $db_name . ";" . $db_host;
 #Info from dbsettings.pl
 my $dbh          = DBI->connect( $dsn, $db_user_name, $db_pw );
 #Reset the total change
