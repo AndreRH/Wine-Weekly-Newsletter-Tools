@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-# e.g. perl getAppChanges.pl 2014-08-29 2014-09-12 375 > appdb.txt
+# e.g. perl getAppChanges.pl 2014-10-10 2014-10-24 378 > appdb.txt
 use strict;
 
 my ( $fromdate, $todate, $WWN) = @ARGV;

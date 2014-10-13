@@ -3,19 +3,38 @@
 # Copyright, Brian Vincent, 2002-2006
 # Copyright, André Hentschel, 2014
 
+THISISSUE="378"
+#THISMODIFER="th"
+THISPERLDATE="2014-10-24"
+LASTPERLDATE="2014-10-10"
+
+IFSTMP=$IFS
+IFS='-' read -ra PERLTMP <<< "$THISPERLDATE"
+IFS=$IFSTMP
+THISFORMALDATE="${PERLTMP[1]}/${PERLTMP[2]}/${PERLTMP[0]}"
+
+perl getAppChanges.pl ${LASTPERLDATE} ${PERLDATE} ${THISISSUE} > appdb.txt
+
+TOBEMOD="${THISISSUE: -1}"
+if [ $TOBEMOD -eq 1 ]
+then
+    THISMODIFER="st"
+elif [ $TOBEMOD -eq 2 ]
+then
+    THISMODIFER="nd"
+elif [ $TOBEMOD -eq 3 ]
+then
+    THISMODIFER="rd"
+else
+    THISMODIFER="th"
+fi
+
 #Autho info
 AUTHORURL="http://www.dawncrow.de/wine/"
 AUTHORNAME="Andr&#233; Hentschel"
 
 #Directory to put wwn files
 WWNDIR="wwn"
-
-# The number of this Kernel Cousin issue - we use it to give files a
-# unique name.
-
-THISISSUE="375"
-THISMODIFER="th"
-THISFORMALDATE="09/12/2014"
 
 WINEDEVELARCHIVE="http://www.winehq.com/pipermail/wine-devel/"
 
@@ -68,6 +87,8 @@ echo "Invoking sed to find instances of Unicode chars..."
 sed -f s-sed.stat ${WWNDIR}/junk3.tmp >> ${WWNDIR}/kcstats${THISISSUE}.txt
 #rm ${WWNDIR}/junk.tmp ${WWNDIR}/junk2.tmp ${WWNDIR}/junk3.tmp
 
+echo "" >> ${WWNDIR}/kcstats${THISISSUE}.txt
+cat appdb.txt >> ${WWNDIR}/kcstats${THISISSUE}.txt
 echo "</kc>" >> ${WWNDIR}/kcstats${THISISSUE}.txt
 
 echo "We still might have Unicode problems though..."
